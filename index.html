@@ -9,10 +9,11 @@
   <body></body>
   <script>
     class Keranjang {
-      constructor(produk, qty, harga) {
+      constructor(produk, qty, harga, stock) {
         this.produk = produk;
         this.qty = qty;
         this.harga = harga;
+        this.stock = stock;
       }
     }
     let belanja = [
@@ -38,32 +39,39 @@
     let menu = 0;
     while (menu != 3) {
       menu = prompt(`
-1. menu
-2. keranjang
-3. exit`);
+    1. menu
+    2. keranjang
+    3. exit`);
 
       if (menu == 1) {
         let opt = parseInt(prompt(tampilanBelanja));
         if (opt > 0 && opt < 9) {
           let item = belanja[opt - 1];
           let qty = parseInt(prompt("qty brp?"));
-          console.log(item);
+          let cek;
+          keranjang.find((val, idx) =>
+            val.produk == item.produk ? (cek = idx) : null
+          );
+
           qty > item.stock || qty < 0
             ? alert("input ngaco")
+            : cek != undefined
+            ? (keranjang[cek].qty = qty)
             : keranjang.push(new Keranjang(item.produk, qty, item.harga));
         }
       } else if (menu == 2) {
-        barang = [];
         menuKeranjang = prompt(`
-        1.Checkout 
-        2.Delete
-        3.Edit Quantity
-        4.Back`);
+            1.Checkout
+            2.Delete
+            3.Edit Quantity
+            4.Back`);
         if (menuKeranjang == 1) {
+          let barang = "";
+          console.log(keranjang);
           for (i = 0; i < keranjang.length; i++) {
-            barang =
-              barang +
-              (i + 1) +
+            barang +=
+              i +
+              1 +
               "." +
               keranjang[i].produk +
               " Quantity " +
