@@ -8,17 +8,26 @@
   </head>
   <body></body>
   <script>
-    class Keranjang {
-      constructor(produk, qty, harga) {
-        this.produk = produk;
-        this.qty = qty;
-        this.harga = harga;
-      }
-    }
     let belanja = [
       { produk: "Kemeja Pria", stock: 10, harga: 120000 },
       { produk: "Celana Jeans Pria", stock: 5, harga: 200000 },
+      { produk: "Sepatu Air Jordan Hight", stock: 3, harga: 2000000 },
+      { produk: "Sepatu yeezy", stock: 5, harga: 4000000 },
     ];
+
+    class Keranjang {
+      constructor(produk, qty, harga, stock) {
+        this.produk = produk;
+        this.qty = qty;
+        this.harga = harga;
+        this.stock = stock;
+      }
+
+      ubahQty(qty) {
+        this.qty = qty;
+      }
+    }
+
     let tampilanBelanja = "";
 
     belanja.forEach((val, index) => {
@@ -29,12 +38,17 @@
         val.produk +
         " Stock " +
         val.stock +
-        " Rp.@" +
+        " @ Rp. " +
         val.harga.toLocaleString("id-ID") +
         "\n";
     });
 
+    // console.log(`asu ${tampilanBelanja}`);
+
     let keranjang = [];
+
+    let tampilKeranjang = "";
+
     let menu = 0;
     while (menu != 3) {
       menu = prompt(`
@@ -46,20 +60,69 @@
         let opt = parseInt(prompt(tampilanBelanja));
         if (opt > 0 && opt < 9) {
           let item = belanja[opt - 1];
-          let qty = parseInt(prompt("qty brp?"));
+          let qty = parseInt(prompt(`qty brp? stock = ${item.stock}`));
           console.log(item);
           qty > item.stock || qty < 0
             ? alert("input ngaco")
-            : keranjang.push(new Keranjang(item.produk, qty, item.harga));
+            : keranjang.push(
+                new Keranjang(item.produk, qty, item.harga, item.stock)
+              );
+          console.log(keranjang);
         }
       } else if (menu == 2) {
-        console.log(keranjang);
+        let menuKeranjang = 0;
+        while (menu != 4) {
+          menuKeranjang = prompt(`
+          1. Checkout
+          2. Delete
+          3. Edit Qty
+          4. Back`);
+
+          if (menuKeranjang == "1") {
+            prompt(tampilKeranjang);
+          } else if (menuKeranjang == 2) {
+            prompt(`delete`);
+          } else if (menuKeranjang == "3") {
+            tampilKeranjang = "";
+            keranjang.forEach((val, index) => {
+              tampilKeranjang +=
+                index +
+                1 +
+                ". " +
+                val.produk +
+                " Quantity " +
+                val.qty +
+                " Rp. " +
+                val.harga.toLocaleString("id-ID") +
+                "\n";
+            });
+
+            let eqty = parseInt(prompt(tampilKeranjang));
+            if (eqty > 0 && eqty <= keranjang.length) {
+              let choiceItem = keranjang[eqty - 1];
+              let changeQty = parseInt(
+                prompt(
+                  `Sesuaikan Quantity! Quantity sekarang = ${choiceItem.qty} stock = ${choiceItem.stock}`
+                )
+              );
+              console.log(choiceItem);
+              changeQty > choiceItem.stock || changeQty < 0
+                ? alert(`Input yang bener la cok!!!`)
+                : choiceItem.ubahQty(changeQty);
+            } else {
+              alert(` Anda ngaco `);
+            }
+          } else if (menuKeranjang == 4) {
+            return menu;
+          }
+        }
       } else if (menu == 3) {
         alert("terima kasih sudah berkunjung");
       } else {
         alert("menu belum dibuat");
       }
     }
+
     console.log("whatever");
   </script>
 </html>
