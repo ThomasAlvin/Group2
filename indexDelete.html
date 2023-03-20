@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Exercise</title>
+	</head>
+	<body></body>
+	<script>
+		class Keranjang {
+			constructor(produk, qty, harga) {
+				this.produk = produk;
+				this.qty = qty;
+				this.harga = harga;
+			}
+		}
+
+		let belanja = [
+			{ produk: "Kemeja Pria", stock: 10, harga: 120000 },
+			{ produk: "Celana Jeans Pria", stock: 5, harga: 200000 },
+		];
+		let tampilanBelanja = "";
+
+		belanja.forEach((val, index) => {
+			tampilanBelanja +=
+				index +
+				1 +
+				". " +
+				val.produk +
+				" Stock " +
+				val.stock +
+				" Rp.@" +
+				val.harga.toLocaleString("id-ID") +
+				"\n";
+		});
+
+		let keranjang = [];
+
+		let menu = 0;
+		while (menu != 3) {
+			menu = prompt(`
+1. menu
+2. keranjang
+3. exit`);
+
+			if (menu == 1) {
+				let opt = parseInt(prompt(tampilanBelanja));
+				if (opt > 0 && opt < 9) {
+					let item = belanja[opt - 1];
+					let qty = parseInt(prompt("qty brp?"));
+					console.log(item);
+					qty > item.stock || qty < 0
+						? alert("input ngaco")
+						: keranjang.push(new Keranjang(item.produk, qty, item.harga));
+				}
+			} else if (menu == 2) {
+				barang = [];
+				menuKeranjang = prompt(`
+1.Checkout
+2.Delete
+3.Edit Quantity
+4.Back`);
+				if (menuKeranjang == 1) {
+					for (i = 0; i < keranjang.length; i++) {
+						barang =
+							barang +
+							(i + 1) +
+							"." +
+							keranjang[i].produk +
+							" Quantity " +
+							keranjang[i].qty +
+							" Harga " +
+							keranjang[i].harga +
+							" Total Harga " +
+							keranjang[i].harga * keranjang[i].qty +
+							"\n";
+					}
+					menu = prompt(barang);
+				} else if (menuKeranjang == 2) {
+					for (i = 0; i < keranjang.length; i++) {
+						barang =
+							barang +
+							(i + 1) +
+							"." +
+							keranjang[i].produk +
+							" Quantity " +
+							keranjang[i].qty +
+							" Harga " +
+							keranjang[i].harga +
+							" Total Harga " +
+							keranjang[i].harga * keranjang[i].qty +
+							"\n";
+					}
+
+					let del = parseInt(prompt(barang));
+					if (del >= 0 && del <= keranjang.length) {
+						let delItem = keranjang[del - 1];
+						delItem = keranjang.splice(delItem, 1);
+					}
+				}
+			} else if (menuKeranjang == 3) {
+				{
+					barang = [];
+				}
+			}
+		}
+	</script>
+</html>
